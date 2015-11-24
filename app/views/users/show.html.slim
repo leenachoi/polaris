@@ -1,8 +1,47 @@
 .profile
-  div
-    = link_to image_tag(@user.picture.url(:med)), @user.picture.url
-  h1
-    = @user.first_name
-  div
-    = @user.description
-  = @user.phone
+  .profile-cover
+    .cover-image.container.row
+      = link_to image_tag(@user.cover_image.url(:med)), @user.cover_image.url, :class => 'cover-link'
+    .cover-overlay
+    .profile-details.container.row
+      .profile-image
+        = link_to image_tag(@user.picture.url(:med)), @user.picture.url, :class => 'profile-link'
+      .name
+        span
+          = @user.first_name
+      .description
+        span
+          = @user.description
+      .contact
+        span
+          = @user.email + " | " + @user.phone
+      = button_tag "Edit Profile", :class => 'btn btn-primary edit-profile'
+
+  .post-container
+    .post-type.navbar.navbar-inverse
+      ul.nav.navbar-nav.nav-tabs role='tablist'
+        li.active
+          =link_to "Guide", "#guides", :class => "a.fa.fa-pencil.fa-lg", :role => "tab", data: {toggle: "tab"}
+        li
+          =link_to "Help", "#helps", :class => "a.fa.fa-pencil.fa-lg", :role => "tab", data: {toggle: "tab"}
+        li
+          =link_to "Events", "#events", :class => "a.fa.fa-pencil.fa-lg", :role => "tab", data: {toggle: "tab"}
+    .posts.tab-content
+      #guides.tab-pane.fade.in.active
+        h2.title Guides
+        .post-panel
+          - @guides.each do |post|
+            .col-lg-3.col-md-4.col-sm-6.col-xs-12
+              = render :partial => "shared/panel", :locals => {:post => post}
+      #helps.tab-pane.fade
+        h2.title Help
+        .post-panel
+          - @helps.each do |post|
+            .col-lg-3.col-md-4.col-sm-6.col-xs-12
+              = render :partial => "shared/panel", :locals => {:post => post}
+      #events.tab-pane.fade
+        h2.title Events
+        .post-panel
+          - @events.each do |post|
+            .col-lg-3.col-md-4.col-sm-6.col-xs-12
+              = render :partial => "shared/panel", :locals => {:post => post}
